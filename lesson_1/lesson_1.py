@@ -55,8 +55,8 @@ print('-------------------------------task 5------------------------------------
 
 """
 
-# for url in URLS:
-#     print(get_ping_result(url), '', sep='\n')
+for url in URLS:
+    print(get_ping_result(url), '', sep='\n')
 
 print('-------------------------------task 6----------------------------------------')
 """
