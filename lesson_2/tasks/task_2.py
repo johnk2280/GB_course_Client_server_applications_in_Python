@@ -11,3 +11,13 @@
     - Проверить работу программы через вызов функции write_order_to_json() с передачей в нее значений каждого параметра.
 
 """
+
+import json
+
+
+def write_order_to_json(**kwargs):
+    pass
+
+
+if __name__ == '__main__':
+    write_order_to_json()

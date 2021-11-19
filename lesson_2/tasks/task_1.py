@@ -20,3 +20,33 @@
     - Проверить работу программы через вызов функции write_to_csv().
 
 """
+
+import os
+import re
+
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+print(BASE_DIR)
+
+
+def get_files():
+    all_files = os.listdir(BASE_DIR.joinpath('test_files'))
+    for file in all_files:
+        if re.match(r'info_', file):
+            yield file
+
+
+def get_data():
+    for file in get_files():
+        with open()
+
+
+def write_to_csv():
+    pass
+
+
+if __name__ == '__main__':
+    get_files()
