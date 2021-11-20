@@ -23,17 +23,17 @@
 
 import os
 import re
+import csv
 
 from pathlib import Path
-
+import chardet
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-print(BASE_DIR)
+TEST_FILE_DIR = BASE_DIR.joinpath('test_files')
 
 
 def get_files():
-    all_files = os.listdir(BASE_DIR.joinpath('test_files'))
+    all_files = os.listdir(TEST_FILE_DIR)
     for file in all_files:
         if re.match(r'info_', file):
             yield file
@@ -41,7 +41,16 @@ def get_files():
 
 def get_data():
     for file in get_files():
-        with open()
+        with open(TEST_FILE_DIR.joinpath(file), 'rb') as f_obj:
+            content = f_obj.read()
+            encoding_params = chardet.detect(content)
+            lines = content.decode(encoding_params['encoding']).split('\r\n')
+            for line in lines:
+
+                # print(chardet.detect(line))
+                print(line.decode('cp1251'))
+
+        print('------------------------------------------------------------------------')
 
 
 def write_to_csv():
@@ -49,4 +58,4 @@ def write_to_csv():
 
 
 if __name__ == '__main__':
-    get_files()
+    get_data()
