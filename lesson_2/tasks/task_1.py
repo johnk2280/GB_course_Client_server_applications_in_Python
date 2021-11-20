@@ -32,23 +32,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 TEST_FILE_DIR = BASE_DIR.joinpath('test_files')
 
 
-def get_files():
-    all_files = os.listdir(TEST_FILE_DIR)
+def get_files(directory, file_extension=None):
+    all_files = os.listdir(directory)
     for file in all_files:
-        if re.match(r'info_', file):
+        if re.search(file_extension, file):
             yield file
 
 
 def get_data():
-    for file in get_files():
+    for file in get_files(TEST_FILE_DIR, '.txt'):
         with open(TEST_FILE_DIR.joinpath(file), 'rb') as f_obj:
             content = f_obj.read()
             encoding_params = chardet.detect(content)
             lines = content.decode(encoding_params['encoding']).split('\r\n')
             for line in lines:
 
-                # print(chardet.detect(line))
-                print(line.decode('cp1251'))
+                print(line)
 
         print('------------------------------------------------------------------------')
 
