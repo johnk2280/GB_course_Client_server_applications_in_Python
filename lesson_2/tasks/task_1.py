@@ -40,6 +40,16 @@ def get_files(directory, file_extension=None):
 
 
 def get_data():
+    os_prod_list = []
+    os_name_list = []
+    os_code_list = []
+    os_type_list = []
+    main_data = [
+        'Изготовитель системы',
+        'Название ОС',
+        'Код продукта',
+        'Тип системы'
+    ]
     for file in get_files(TEST_FILE_DIR, '.txt'):
         with open(TEST_FILE_DIR.joinpath(file), 'rb') as f_obj:
             content = f_obj.read()
