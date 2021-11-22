@@ -11,7 +11,6 @@
     - Проверить работу программы через вызов функции write_order_to_json() с передачей в нее значений каждого параметра.
 
 """
-import datetime
 import json
 
 from settings import (
