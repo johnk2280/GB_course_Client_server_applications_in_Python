@@ -16,18 +16,9 @@ import json
 
 from settings import (
     TEST_FILE_DIR,
+    ORDERS,
     get_files,
 )
-
-order = {
-    'item': 'apple',
-    'quantity': 225,
-    'price ': 0.4,
-    'buyer': 'JohnK',
-    'date': datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
-
-}
-orders = [order, ]
 
 
 def write_order_to_json(orders: list) -> None:
@@ -44,4 +35,4 @@ def write_order_to_json(orders: list) -> None:
 
 
 if __name__ == '__main__':
-    write_order_to_json(orders)
+    write_order_to_json(ORDERS)

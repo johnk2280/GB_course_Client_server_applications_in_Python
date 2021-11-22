@@ -14,3 +14,15 @@
     - Реализовать считывание данных из созданного файла и проверить, совпадают ли они с исходными.
 
 """
+import yaml
+
+from settings import DATA_TO_YAML, TEST_FILE_DIR
+
+
+def write_to_yaml(data):
+    with open(TEST_FILE_DIR.joinpath('task_3_result.yaml'), 'w', encoding='utf-8') as f_obj:
+        yaml.dump(data, f_obj, default_flow_style=False, allow_unicode=True)
+
+
+if __name__ == '__main__':
+    write_to_yaml(DATA_TO_YAML)

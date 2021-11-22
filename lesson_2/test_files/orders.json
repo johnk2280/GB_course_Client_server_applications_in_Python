@@ -6,6 +6,41 @@
             "item": "apple",
             "price ": 0.4,
             "quantity": 225
+        },
+        {
+            "buyer": "JohnK",
+            "date": "11/22/2021, 22:47:45",
+            "item": "apple",
+            "price ": 0.4,
+            "quantity": 225
+        },
+        {
+            "buyer": "JohnK",
+            "date": "11/22/2021, 22:47:46",
+            "item": "apple",
+            "price ": 0.4,
+            "quantity": 225
+        },
+        {
+            "buyer": "JohnK",
+            "date": "11/22/2021, 22:47:47",
+            "item": "apple",
+            "price ": 0.4,
+            "quantity": 225
+        },
+        {
+            "buyer": "JohnK",
+            "date": "11/22/2021, 22:47:47",
+            "item": "apple",
+            "price ": 0.4,
+            "quantity": 225
+        },
+        {
+            "buyer": "JohnK",
+            "date": "11/22/2021, 22:49:44",
+            "item": "apple",
+            "price ": 0.4,
+            "quantity": 225
         }
     ]
 }
