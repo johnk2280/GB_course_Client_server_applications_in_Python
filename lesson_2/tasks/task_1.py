@@ -21,11 +21,9 @@
 
 """
 
-import os
 import re
 import csv
 
-from pathlib import Path
 import chardet
 import numpy as np
 
