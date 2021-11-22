@@ -27,44 +27,53 @@ import csv
 
 from pathlib import Path
 import chardet
+import numpy as np
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-TEST_FILE_DIR = BASE_DIR.joinpath('test_files')
-
-
-def get_files(directory, file_extension=None):
-    all_files = os.listdir(directory)
-    for file in all_files:
-        if re.search(file_extension, file):
-            yield file
+from settings import (
+    TEST_FILE_DIR,
+    get_files,
+)
 
 
-def get_data():
+def get_data() -> list:
     os_prod_list = []
     os_name_list = []
     os_code_list = []
     os_type_list = []
-    main_data = [
+    main_data = [os_prod_list, os_name_list, os_code_list, os_type_list]
+    headers = [
         'Изготовитель системы',
         'Название ОС',
         'Код продукта',
         'Тип системы'
     ]
+    prod_pattern = re.compile(r'Изготовитель системы:\s*\S*')
+    name_pattern = re.compile(r'Название ОС:\s*\S*')
+    code_pattern = re.compile(r'Код продукта:\s*\S*')
+    type_pattern = re.compile(r'Тип системы:\s*\S*')
+
     for file in get_files(TEST_FILE_DIR, '.txt'):
         with open(TEST_FILE_DIR.joinpath(file), 'rb') as f_obj:
             content = f_obj.read()
             encoding_params = chardet.detect(content)
-            lines = content.decode(encoding_params['encoding']).split('\r\n')
-            for line in lines:
+            decode_cont = content.decode(encoding_params['encoding'])
 
-                print(line)
+        os_prod_list.append(prod_pattern.findall(decode_cont)[0].split()[2])
+        os_name_list.append(name_pattern.findall(decode_cont)[0].split()[2])
+        os_code_list.append(code_pattern.findall(decode_cont)[0].split()[2])
+        os_type_list.append(type_pattern.findall(decode_cont)[0].split()[2])
 
-        print('------------------------------------------------------------------------')
+    main_data = np.array(main_data, dtype=object).T.tolist()
+    main_data.insert(0, headers)
+    return main_data
 
 
-def write_to_csv():
-    pass
+def write_to_csv(data: list) -> None:
+    with open(TEST_FILE_DIR.joinpath('task_1_result.csv'), 'w', encoding='utf-8') as f_obj:
+        writer = csv.writer(f_obj)
+        for line in data:
+            writer.writerow(line)
 
 
 if __name__ == '__main__':
-    get_data()
+    write_to_csv(get_data())
