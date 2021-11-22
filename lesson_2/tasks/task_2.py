@@ -26,12 +26,12 @@ def write_order_to_json(orders: list) -> None:
     for file in files:
         with open(TEST_FILE_DIR.joinpath(file), 'r') as f_obj:
             content = f_obj.read()
-            obj = json.loads(content)
-            obj['orders'].extend(orders)
-            print(1)
+
+        obj = json.loads(content)
+        obj['orders'].extend(orders)
 
         with open(TEST_FILE_DIR.joinpath(file), 'w', encoding='utf-8') as f_obj:
-            json.dump(obj, f_obj, sort_keys=True, indent=4)
+            json.dump(obj, f_obj, sort_keys=True, indent=4, ensure_ascii=False)
 
 
 if __name__ == '__main__':
