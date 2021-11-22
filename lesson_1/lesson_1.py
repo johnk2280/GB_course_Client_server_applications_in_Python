@@ -1,3 +1,5 @@
+import chardet
+
 from controllers import (
     get_type,
     get_bytes,
@@ -70,7 +72,13 @@ print('-------------------------------task 6------------------------------------
 with open('test_file.txt', 'wb') as f:
     f.writelines(word.encode() + b'\n' for word in WORDS)
 
-with open('test_file.txt', 'r', encoding='utf-8') as f:
+with open('test_file.txt', 'rb') as f_obj:
+    content = f_obj.read()
+    encoding = chardet.detect(content)['encoding']
+    print(encoding)
+
+
+with open('test_file.txt', 'r', encoding=encoding) as f:
     result = f.readlines()
 
 print(*result)
