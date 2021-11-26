@@ -1,4 +1,5 @@
 import sys
+import json
 from socket import socket, AF_INET, SOCK_STREAM, SO_REUSEPORT
 
 
@@ -11,49 +12,57 @@ class MessageServer:
         self.sock.bind((self.address, self.port))
         self.sock.listen()
 
-    def get_message(self, sock):
-        data = sock.recv(1280)
+    def get_data(self, message: bytes) -> dict:
+        return json.loads(message.decode('utf-8'))
+
+    def get_status(self, param):
         pass
 
-    def create_response(self):
-        pass
+    def create_response(self, data: dict) -> bytes:
+        status = self.get_status(data['action'])
 
-    def send_response(self):
-        pass
+        return
 
-    def run(self):
-        client, addr = self.sock.accept()
-        message = self.get_message(client)
-        pass
+    def run(self) -> None:
+        while True:
+            client, address = self.sock.accept()
+            message = client.recv(1280)
+            data = self.get_data(message)
+            response = self.create_response(data)
+            client.send(response)
+            client.close()
 
 
 def parse_command_line() -> tuple:
-    # TODO: реализовать проверки
-
     address = ''
     port = 7777
     command_args = sys.argv
-    if len(command_args) == 4:
-
+    if '-p' in command_args:
         try:
             port = int(command_args[command_args.index('-p') + 1])
+            if port < 1024 or port > 65535:
+                raise ValueError
+        except IndexError:
+            print('После параметра -\'p\' необходимо указать номер порта.')
+            sys.exit(-1)
         except ValueError:
-            return 'Порт должен быть целым числом'
+            print('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
+            sys.exit(-1)
 
+    if '-a' in command_args:
         try:
             address = command_args[command_args.index('-a') + 1]
-        except:
-            return
+        except IndexError:
+            print('После параметра \'a\'- необходимо указать адрес, который будет слушать сервер.')
+            sys.exit(1)
 
-    print(1)
     return address, port
 
 
-def main():
-    # TODO: реализовать все проверки здесь
+def main() -> None:
     address, port = parse_command_line()
     server = MessageServer(address, port)
-    # server.run()
+    server.run()
 
 
 if __name__ == '__main__':
