@@ -15,9 +15,6 @@ class MessageServer:
     def get_data(self, message: bytes) -> dict:
         return json.loads(message.decode('utf-8'))
 
-    # def get_status(self, param):
-    #     pass
-
     def create_response(self, data: dict) -> bytes:
         if list(data.keys()) == ['action', 'time', 'type', 'user'] and data['action'] == 'presence':
             return json.dumps({'response': 200}).encode('utf-8')

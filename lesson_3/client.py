@@ -30,9 +30,6 @@ class Client:
     def get_response(self, response: bytes) -> dict:
         return json.loads(response.decode('utf-8'))
 
-    # def get_message(self, message: bytes) -> dict:
-    #     pass
-
     def run(self) -> None:
         self.send_request(self.create_message())
         response = self.get_response(self.sock.recv(1280))
