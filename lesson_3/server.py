@@ -15,8 +15,8 @@ class MessageServer:
     def get_data(self, message: bytes) -> dict:
         return json.loads(message.decode('utf-8'))
 
-    def get_status(self, param):
-        pass
+    # def get_status(self, param):
+    #     pass
 
     def create_response(self, data: dict) -> bytes:
         if list(data.keys()) == ['action', 'time', 'type', 'user'] and data['action'] == 'presence':
@@ -35,7 +35,7 @@ class MessageServer:
 
 
 def parse_command_line() -> tuple:
-    address = ''
+    address = '127.0.0.1'
     port = 7777
     command_args = sys.argv
     if '-p' in command_args:
