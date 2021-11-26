@@ -19,9 +19,10 @@ class MessageServer:
         pass
 
     def create_response(self, data: dict) -> bytes:
-        status = self.get_status(data['action'])
+        if list(data.keys()) == ['action', 'time', 'type', 'user'] and data['action'] == 'presence':
+            return json.dumps({'response': 200}).encode('utf-8')
 
-        return
+        return json.dumps({'response': 400}).encode('utf-8')
 
     def run(self) -> None:
         while True:
