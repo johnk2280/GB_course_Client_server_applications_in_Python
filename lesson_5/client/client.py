@@ -1,6 +1,11 @@
+import logging
 import sys
 import json
 from socket import socket, AF_INET, SOCK_STREAM, SO_REUSEPORT
+
+import lesson_5.log.client_log_config
+
+client_logger = logging.getLogger('client')
 
 
 class Client:
@@ -12,7 +17,7 @@ class Client:
         self.sock.connect((self.address, self.port))
 
     def create_message(self) -> bytes:
-        # TODO: когда-нибудь здесь будет выбор сообщений
+        client_logger.debug('Создание сообщения для отправки')
         data = {
             "action": "presence",
             "time": '',
@@ -25,15 +30,18 @@ class Client:
         return json.dumps(data).encode('utf-8')
 
     def send_request(self, message: bytes) -> None:
+        client_logger.debug('Отправка сообщения')
         self.sock.send(message)
 
     def get_response(self, response: bytes) -> dict:
         return json.loads(response.decode('utf-8'))
 
     def run(self) -> None:
+        client_logger.debug('Запуск клиента')
         self.send_request(self.create_message())
+        client_logger.debug('Сообщение отправлено')
         response = self.get_response(self.sock.recv(1280))
-        print(response)
+        client_logger.debug(f'Получен ответ сервера - {response}')
 
 
 def parse_command_line() -> tuple:
