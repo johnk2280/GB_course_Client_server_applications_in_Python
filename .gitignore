@@ -127,5 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/lesson_3/temp_server.py
-/lesson_3/temp_client.py
+
