@@ -20,7 +20,8 @@ class TestClient(unittest.TestCase):
             }
         }
 
-        self.assertEqual(client.create_message(), json.dumps(data).encode('utf-8'))
+        self.assertEqual(client.create_message(),
+                         json.dumps(data).encode('utf-8'))
         client.sock.close()
         server.sock.close()
 
@@ -37,7 +38,8 @@ class TestClient(unittest.TestCase):
             }
         }
 
-        self.assertEqual(client.send_request(json.dumps(data).encode('utf-8')), None)
+        self.assertEqual(client.send_request(json.dumps(data).encode('utf-8')),
+                         None)
         client.sock.close()
         server.sock.close()
 
@@ -54,6 +56,7 @@ class TestClient(unittest.TestCase):
             }
         }
 
-        self.assertEqual(client.get_response(json.dumps(data).encode('utf-8')), data)
+        self.assertEqual(client.get_response(json.dumps(data).encode('utf-8')),
+                         data)
         client.sock.close()
         server.sock.close()

@@ -3,6 +3,8 @@ import sys
 import json
 from socket import socket, AF_INET, SOCK_STREAM
 
+from lesson_6.decos import log
+
 client_logger = logging.getLogger('client')
 
 
@@ -14,7 +16,8 @@ class Client:
         self.sock = socket(AF_INET, SOCK_STREAM)
         self.sock.connect((self.address, self.port))
 
-    def create_message(self) -> bytes:
+    @staticmethod
+    def create_message() -> bytes:
         client_logger.debug('Создание сообщения для отправки')
         data = {
             "action": "presence",
@@ -27,13 +30,16 @@ class Client:
         }
         return json.dumps(data).encode('utf-8')
 
+    @log
     def send_request(self, message: bytes) -> None:
         client_logger.debug('Отправка сообщения')
         self.sock.send(message)
 
-    def get_response(self, response: bytes) -> dict:
+    @staticmethod
+    def get_response(response: bytes) -> dict:
         return json.loads(response.decode('utf-8'))
 
+    @log
     def run(self) -> None:
         client_logger.debug('Запуск клиента')
         self.send_request(self.create_message())
@@ -42,6 +48,7 @@ class Client:
         client_logger.debug(f'Получен ответ сервера - {response}')
 
 
+@log
 def parse_command_line() -> tuple:
     command_args = sys.argv
     try:
@@ -53,7 +60,10 @@ def parse_command_line() -> tuple:
         address = '127.0.0.1'
         port = 7777
     except ValueError:
-        print('В качестве порта может быть указано только число в диапазоне от 1024 до 65535.')
+        client_logger.debug(
+            'В качестве порта может быть указано только число в диапазоне '
+            'от 1024 до 65535.'
+        )
         sys.exit(-1)
 
     return address, port

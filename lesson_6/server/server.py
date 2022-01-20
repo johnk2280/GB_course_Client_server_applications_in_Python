@@ -4,6 +4,7 @@ from socket import socket, AF_INET, SOCK_STREAM, SO_REUSEPORT
 import logging
 
 import lesson_6.log.server_log_config
+from lesson_6.decos import log
 
 server_logger = logging.getLogger('server')
 
@@ -17,10 +18,12 @@ class MessageServer:
         self.sock.bind((self.address, self.port))
         self.sock.listen()
 
+    @log
     def get_data(self, message: bytes) -> dict:
         server_logger.debug('Получение данных из сообщения')
         return json.loads(message.decode('utf-8'))
 
+    @log
     def create_response(self, data: dict) -> bytes:
         server_logger.debug('Формирование ответа')
         if list(data.keys()) == ['action', 'time', 'type', 'user'] and data['action'] == 'presence':
@@ -28,6 +31,7 @@ class MessageServer:
 
         return json.dumps({'response': 400}).encode('utf-8')
 
+    @log
     def run(self) -> None:
         while True:
             server_logger.debug('Запуск сервера')
@@ -44,6 +48,7 @@ class MessageServer:
             server_logger.debug('Соединение с клиентом закрыто')
 
 
+@log
 def parse_command_line() -> tuple:
     address = '127.0.0.1'
     port = 7777
@@ -70,6 +75,7 @@ def parse_command_line() -> tuple:
     return address, port
 
 
+@log
 def main() -> None:
     address, port = parse_command_line()
     server = MessageServer(address, port)
