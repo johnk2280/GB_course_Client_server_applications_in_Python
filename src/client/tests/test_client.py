@@ -1,8 +1,8 @@
 import json
 import unittest
 
-from lesson_6.client.client import Client, parse_command_line
-from lesson_6.server.server import MessageServer
+from src.client.client import Client
+from src.server.server import MessageServer
 
 
 class TestClient(unittest.TestCase):

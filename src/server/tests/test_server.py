@@ -1,9 +1,8 @@
 import socket
 import unittest
 import json
-import sys
 
-from lesson_6.server.server import MessageServer
+from src.server.server import MessageServer
 
 
 class TestMessageServer(unittest.TestCase):

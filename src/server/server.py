@@ -1,10 +1,9 @@
 import sys
 import json
-from socket import socket, AF_INET, SOCK_STREAM, SO_REUSEPORT
+from socket import socket, AF_INET, SOCK_STREAM
 import logging
 
-import lesson_6.log.server_log_config
-from lesson_6.decos import log
+from src.decos import log
 
 server_logger = logging.getLogger('server')
 

@@ -1,0 +1,35 @@
+version: 1
+disable_existing_loggers: no
+formatters:
+  simple:
+    format: '[%(asctime)s] [%(levelname)s] %(module)s - %(message)s'
+  normal:
+    format: '[%(asctime)s] [%(levelname)s] %(name)s %(module)s - %(message)s'
+  verbose:
+    format: '[%(asctime)s] [%(levelname)s] %(module)s - %(message)s at %(filename)s line %(lineno)d'
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: normal
+    stream: ext://sys.stdout
+  server_file:
+    class: logging.handlers.RotatingFileHandler
+    formatter: normal
+    filename: logs/server.log
+    maxBytes: 1048576
+    backupCount: 6
+  default_file:
+    class: logging.handlers.RotatingFileHandler
+    formatter: normal
+    filename: logs/default.log
+    maxBytes: 1048576
+    backupCount: 6
+loggers:
+  get_course_connector:
+    level: INFO
+    handlers: [console, server_file]
+    propagate: no
+root:
+  level: INFO
+  handlers: [console]

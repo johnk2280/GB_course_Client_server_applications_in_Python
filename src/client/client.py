@@ -3,7 +3,7 @@ import sys
 import json
 from socket import socket, AF_INET, SOCK_STREAM
 
-from lesson_6.decos import log
+from src.decos import log
 
 client_logger = logging.getLogger('client')
 
