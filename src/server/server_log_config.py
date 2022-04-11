@@ -2,18 +2,28 @@ import logging
 import logging.handlers
 import sys
 
-from pathlib import Path
+from settings import BASE_DIR
+from settings import LOGGER_CONFIG
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-PATH = BASE_DIR.joinpath('log', 'server.log')
+sys.path.append('../')
+PATH_TO_LOG = BASE_DIR.joinpath('logs', 'server.log')
 
-server_formatter = logging.Formatter('%(asctime)s %(levelname)-8s %(filename)s %(message)s')
+# init formatter
+normal_format = LOGGER_CONFIG['formatters']['normal']['format']
+server_formatter = logging.Formatter(normal_format)
 
-stream_handler = logging.StreamHandler(sys.stderr)
+# init output streams
+stream_handler = logging.StreamHandler(sys.stdout)
 stream_handler.setFormatter(server_formatter)
-stream_handler.setLevel(logging.ERROR)
-log_file = logging.handlers.TimedRotatingFileHandler(PATH, encoding='utf8', interval=1, when='S')
+stream_handler.setLevel(logging.DEBUG)
+log_file = logging.handlers.RotatingFileHandler(
+    PATH_TO_LOG,
+    encoding='utf8',
+    maxBytes=1048576,
+    backupCount=6,
+)
 log_file.setFormatter(server_formatter)
+log_file.setLevel(logging.DEBUG)
 
 
 server_logger = logging.getLogger('server')

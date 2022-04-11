@@ -3,12 +3,15 @@ import sys
 import json
 from socket import socket, AF_INET, SOCK_STREAM
 
-from lesson_6.decos import log
+from logger import client_logger
+from src.decos import log
 
-client_logger = logging.getLogger('client')
+# client_logger = logging.getLogger('client')
 
 
 class Client:
+    logger = client_logger
+
     def __init__(self, address, port):
         self.address = address
         self.port = port
@@ -16,9 +19,8 @@ class Client:
         self.sock = socket(AF_INET, SOCK_STREAM)
         self.sock.connect((self.address, self.port))
 
-    @staticmethod
-    def create_message() -> bytes:
-        client_logger.debug('Создание сообщения для отправки')
+    def create_message(self) -> bytes:
+        self.logger.debug('Создание сообщения для отправки')
         data = {
             "action": "presence",
             "time": '',
@@ -32,7 +34,7 @@ class Client:
 
     @log
     def send_request(self, message: bytes) -> None:
-        client_logger.debug('Отправка сообщения')
+        self.logger.debug('Отправка сообщения')
         self.sock.send(message)
 
     @staticmethod
@@ -41,11 +43,11 @@ class Client:
 
     @log
     def run(self) -> None:
-        client_logger.debug('Запуск клиента')
+        self.logger.debug('Запуск клиента')
         self.send_request(self.create_message())
-        client_logger.debug('Сообщение отправлено')
+        self.logger.debug('Сообщение отправлено')
         response = self.get_response(self.sock.recv(1280))
-        client_logger.debug(f'Получен ответ сервера - {response}')
+        self.logger.debug(f'Получен ответ сервера - {response}')
 
 
 @log

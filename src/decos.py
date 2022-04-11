@@ -2,8 +2,6 @@
 
 import sys
 import logging
-import lesson_6.log.server_log_config
-import lesson_6.log.client_log_config
 import traceback
 import inspect
 
