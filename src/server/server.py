@@ -3,12 +3,15 @@ import json
 from socket import socket, AF_INET, SOCK_STREAM
 import logging
 
+from server_log_config import server_logger
 from src.decos import log
 
-server_logger = logging.getLogger('server')
+# server_logger = logging.getLogger('server')
 
 
 class MessageServer:
+    logger = server_logger
+
     def __init__(self, address, port):
         self.address = address
         self.port = port
@@ -19,12 +22,12 @@ class MessageServer:
 
     @log
     def get_data(self, message: bytes) -> dict:
-        server_logger.debug('Получение данных из сообщения')
+        self.logger.debug('Получение данных из сообщения')
         return json.loads(message.decode('utf-8'))
 
     @log
     def create_response(self, data: dict) -> bytes:
-        server_logger.debug('Формирование ответа')
+        self.logger.debug('Формирование ответа')
         if list(data.keys()) == ['action', 'time', 'type', 'user'] and data['action'] == 'presence':
             return json.dumps({'response': 200}).encode('utf-8')
 
@@ -33,18 +36,17 @@ class MessageServer:
     @log
     def run(self) -> None:
         while True:
-            server_logger.debug('Запуск сервера')
+            self.logger.debug('Запуск сервера')
             client, address = self.sock.accept()
-            server_logger.debug('Сервер запущен')
             message = client.recv(1280)
-            server_logger.debug(f'Получено сообщение - {message}')
+            self.logger.debug(f'Получено сообщение - {message}')
             data = self.get_data(message)
             response = self.create_response(data)
-            server_logger.debug(f'Сформирован ответ - {response}')
+            self.logger.debug(f'Сформирован ответ - {response}')
             client.send(response)
-            server_logger.debug('Ответ отправлен')
+            self.logger.debug('Ответ отправлен')
             client.close()
-            server_logger.debug('Соединение с клиентом закрыто')
+            self.logger.debug('Соединение с клиентом закрыто')
 
 
 @log
