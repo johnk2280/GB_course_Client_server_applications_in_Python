@@ -13,7 +13,7 @@ while True:
             # чтобы каждый процесс запускался в отдельном окне консоли
             clients_processes_list.append(
                 Popen(
-                    'python time_client_random.py',
+                    'python3 time_client_random.py',
                     # creationflags=CREATE_NEW_CONSOLE
                 )
             )
